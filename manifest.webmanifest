@@ -1,0 +1,18 @@
+{
+  "name": "Little Sips Tracker",
+  "short_name": "Little Sips",
+  "description": "Track newborn feeding time, milk in ml, and daily totals.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fffaf3",
+  "theme_color": "#f7a24c",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
