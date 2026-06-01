@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7a24c" />
+    <meta
+      name="description"
+      content="Mobile-friendly newborn feeding tracker for logging feed time, ml, and daily totals."
+    />
+    <title>Little Sips Tracker</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Newborn Feeding Tracker</p>
+          <h1>Little Sips</h1>
+          <p class="hero-copy">
+            Log every bottle or feed, track how many ml your baby drank, and see
+            each day's total in one calm place.
+          </p>
+        </div>
+        <div class="hero-side">
+          <div class="hero-badge">
+            <span>Today</span>
+            <strong id="todayDateLabel">--</strong>
+          </div>
+          <div class="hero-actions">
+            <button type="button" class="secondary-btn hidden" id="installAppBtn">Install app</button>
+            <button type="button" class="secondary-btn" id="shareAppBtn">Share app</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="status-strip panel">
+        <div>
+          <p class="panel-kicker">Mobile Ready</p>
+          <h2>Pocket tracker for every feed</h2>
+        </div>
+        <p class="status-copy" id="appStatus">
+          This app saves feeds on your device and can be installed to your phone home screen.
+        </p>
+      </section>
+
+      <main class="layout">
+        <section class="panel entry-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">Quick Entry</p>
+              <h2>Add a feed</h2>
+            </div>
+          </div>
+
+          <form id="feedForm" class="feed-form">
+            <label>
+              <span>Feed time</span>
+              <input id="feedTime" name="feedTime" type="datetime-local" required />
+            </label>
+
+            <label>
+              <span>Milk (ml)</span>
+              <input
+                id="feedAmount"
+                name="feedAmount"
+                type="number"
+                min="1"
+                step="1"
+                inputmode="numeric"
+                placeholder="e.g. 60"
+                required
+              />
+            </label>
+
+            <div class="quick-amounts" aria-label="Common milk amounts">
+              <button type="button" class="chip-btn" data-amount="30">30 ml</button>
+              <button type="button" class="chip-btn" data-amount="60">60 ml</button>
+              <button type="button" class="chip-btn" data-amount="90">90 ml</button>
+              <button type="button" class="chip-btn" data-amount="120">120 ml</button>
+            </div>
+
+            <label>
+              <span>Notes</span>
+              <textarea
+                id="feedNote"
+                name="feedNote"
+                rows="3"
+                placeholder="Optional note: sleepy, finished bottle, spit-up, etc."
+              ></textarea>
+            </label>
+
+            <button type="submit" class="primary-btn">Save feed</button>
+          </form>
+        </section>
+
+        <section class="panel report-panel">
+          <div class="panel-heading report-header">
+            <div>
+              <p class="panel-kicker">Daily Report</p>
+              <h2>Totals by day</h2>
+            </div>
+            <label class="date-filter">
+              <span>Report date</span>
+              <input id="reportDate" type="date" />
+            </label>
+          </div>
+
+          <div class="summary-grid">
+            <article class="summary-card">
+              <span>Total milk</span>
+              <strong id="totalMl">0 ml</strong>
+            </article>
+            <article class="summary-card">
+              <span>Total feeds</span>
+              <strong id="totalFeeds">0</strong>
+            </article>
+            <article class="summary-card">
+              <span>Average feed</span>
+              <strong id="averageFeed">0 ml</strong>
+            </article>
+            <article class="summary-card">
+              <span>Last feed</span>
+              <strong id="lastFeed">--</strong>
+            </article>
+          </div>
+
+          <div class="report-caption" id="reportCaption">
+            No feeds recorded for this day yet.
+          </div>
+
+          <div class="report-actions">
+            <button type="button" class="secondary-btn" id="shareReportBtn">Share daily report</button>
+            <button type="button" class="secondary-btn" id="exportDataBtn">Export backup</button>
+            <label class="secondary-btn file-btn">
+              <span>Import backup</span>
+              <input id="importDataInput" type="file" accept="application/json" hidden />
+            </label>
+          </div>
+
+          <div class="feed-list-wrap">
+            <ul id="feedList" class="feed-list"></ul>
+            <div id="emptyState" class="empty-state">
+              No feeds for this date yet. Add your first entry above.
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <section class="panel history-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="panel-kicker">History</p>
+            <h2>Recent day summaries</h2>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Total ml</th>
+                <th>Feeds</th>
+                <th>Average</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody"></tbody>
+          </table>
+          <div id="historyEmpty" class="empty-state compact">
+            Daily summaries will appear here after you log feeds.
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <template id="feedItemTemplate">
+      <li class="feed-item">
+        <div class="feed-item-main">
+          <div class="feed-time"></div>
+          <div class="feed-meta"></div>
+        </div>
+        <div class="feed-item-side">
+          <strong class="feed-amount"></strong>
+          <button type="button" class="ghost-btn delete-btn">Delete</button>
+        </div>
+      </li>
+    </template>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
